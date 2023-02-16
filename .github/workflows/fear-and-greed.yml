@@ -27,4 +27,11 @@ jobs:
         pip install fear-and-greed
     - name: Run
       run: |
-        python -c 'import fear_and_greed; fgi = fear_and_greed.get(); print(fgi.description + "(%02d)"%(fgi.value))'
+        python -c 'import fear_and_greed; import json; fgi = fear_and_greed.get(); print(json.dumps({"text": fgi.description + "(%02d)"%(fgi.value)}))' > ./payload.json
+    - name: Send custom JSON data to Slack workflow
+      id: slack
+      uses: slackapi/slack-github-action@v1.23.0
+      with:
+        payload-file-path: "./payload.json"
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
