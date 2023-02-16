@@ -15,6 +15,7 @@ jobs:
        id: slack
        uses: slackapi/slack-github-action@v1.23.0
        with:
+         channel-id: 알림
          # This data can be any valid JSON from a previous step in the GitHub Action
          payload: |
            {
