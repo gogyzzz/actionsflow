@@ -1,0 +1,30 @@
+name: Python application
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "--force: whether force to run workflow, true or false"
+        required: false
+        default: "false"
+  
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install fear and greed package
+      run: |
+        python -m pip install --upgrade pip
+        pip install fear-and-greed
+    - name: Run
+      run: |
+        python -c 'import fear_and_greed; fgi = fear_and_greed.get(); print(fgi.description + "(%02d)"%(fgi.value))'
