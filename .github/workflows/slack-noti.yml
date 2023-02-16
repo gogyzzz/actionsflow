@@ -18,16 +18,7 @@ jobs:
          # This data can be any valid JSON from a previous step in the GitHub Action
          payload: |
            {
-            "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "This is a plain text section block.",
-                    "emoji": true
-                  }
-                }
-              ]
+            "text": "hello, github actions"
            }
        env:
          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
