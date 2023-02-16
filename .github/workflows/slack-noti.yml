@@ -1,0 +1,25 @@
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "--force: whether force to run workflow, true or false"
+        required: false
+        default: "false"
+jobs:
+ build:
+   runs-on: ubuntu-latest
+   steps:         
+     - name: Send custom JSON data to Slack workflow
+       id: slack
+       uses: slackapi/slack-github-action@v1.23.0
+       with:
+         # This data can be any valid JSON from a previous step in the GitHub Action
+         payload: |
+           {
+             "key": "value",
+             "foo": "bar"
+           }
+       env:
+         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
