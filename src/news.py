@@ -5,7 +5,6 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from time import sleep
-import tqdm
 
 import os
 from slack_sdk import WebClient
@@ -73,7 +72,7 @@ def get_content(url):
 
 def get_all_contents(links):
     all_contents = []
-    for l in tqdm.tqdm(links):
+    for l in links:
         content = get_content(l)
         if content:
             all_contents.append(content)
@@ -85,7 +84,7 @@ def get_all_contents(links):
 
 
 def write_file(contents, filename):
-    with open(filename, 'w') as f:
+    with open(filename, 'w', encoding='utf-8') as f:
 #         f.write(sep.join(contents))
         f.write('\n'.join(contents))
 
