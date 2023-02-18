@@ -84,7 +84,8 @@ def get_all_contents(links):
 
 
 def write_file(contents, filename):
-    with open(filename, mode='wb') as f:
+    # newline 을 써줘야 windows, linux 상관 없이 같은 동작
+    with open(filename, mode='wt', newline='\n') as f:
 #         f.write(sep.join(contents))
         f.write('\n'.join(contents))
 
@@ -97,11 +98,12 @@ def upload_to_slack(filename):
         # Initialize a Slack WebClient instance with the bot token
         client = WebClient(token=SLACK_BOT_TOKEN)
 
-        # Call the chat_postMessage API method using the WebClient
-        response = client.files_upload(
-            channels=CHANNEL_NAME,
-            file=filename
-        )
+        with open(filename, "rb") as f:   
+            # Call the chat_postMessage API method using the WebClient
+            response = client.files_upload(
+                channels=CHANNEL_NAME,
+                file=f
+            )
 
 
         print(f"File uploaded to Slack: {response['file']['permalink']}")
