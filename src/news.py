@@ -101,7 +101,7 @@ def upload_to_slack(filename):
         response = client.files_upload(
             channels=CHANNEL_NAME,
             file=filename,
-            filetype='text'
+            filetype='html'
         )
 
 
