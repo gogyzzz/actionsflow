@@ -59,10 +59,10 @@ def get_content(url):
     def replace_br_tags(text):
         return text.replace('<br/>', '\n').replace('\n\n', '\n')
     if len(divs) > 0:
-        replaced = replace_br_tags(f"{url}\n\n{head_div[0]}\n{divs[0]}")
-        removed = remove_html_tags(replaced)
-        return removed
-#         return f"{article_link}\n\n{head_div[0]}\n{divs[0]}"
+#         replaced = replace_br_tags(f"{url}\n\n{head_div[0]}\n{divs[0]}")
+#         removed = remove_html_tags(replaced)
+#         return removed
+        return f"{article_link}\n\n{head_div[0]}\n{divs[0]}"
     else:
         return None
 
@@ -84,7 +84,7 @@ def get_all_contents(links):
 
 
 def write_file(contents, filename):
-    with open(filename, mode='wt', newline='\n') as f:
+    with open(filename, mode='wb') as f:
 #         f.write(sep.join(contents))
         f.write('\n'.join(contents))
 
@@ -100,8 +100,7 @@ def upload_to_slack(filename):
         # Call the chat_postMessage API method using the WebClient
         response = client.files_upload(
             channels=CHANNEL_NAME,
-            file=filename,
-            filetype='text'
+            file=filename
         )
 
 
@@ -122,7 +121,7 @@ def job():
 
     # Format the current date as a string
     date_string = now.strftime("%Y-%m-%d")
-    filepath = f'{newspaper_name}_{date_string}.txt'
+    filepath = f'{newspaper_name}_{date_string}.html'
     write_file(contents, filename=filepath)
     # message_to_slack()
     upload_to_slack(filepath)
