@@ -24,7 +24,7 @@ jobs:
     - name: Install fear and greed package
       run: |
         python -m pip install --upgrade pip
-        pip install fear-and-greed
+        pip install fear-and-greed slack_sdk
     - name: Run
       run: |
         python src/fear-and-greed.py
