@@ -29,7 +29,7 @@ CHANNEL_NAME = "#알림"
 
 SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
 
-NUM_ARTICLES = 2
+NUM_ARTICLES = 45
 
 # In[111]:
 
