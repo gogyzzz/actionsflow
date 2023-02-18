@@ -27,6 +27,6 @@ jobs:
         pip install fear-and-greed
     - name: Run
       run: |
-        python src/fear_and_greed.py
+        python src/fear-and-greed.py
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
