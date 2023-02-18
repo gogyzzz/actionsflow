@@ -84,7 +84,7 @@ def get_all_contents(links):
 
 
 def write_file(contents, filename):
-    with open(filename, 'w', encoding='utf-8') as f:
+    with open(filename, 'w') as f:
 #         f.write(sep.join(contents))
         f.write('\n'.join(contents))
 
