@@ -1,6 +1,9 @@
 import fear_and_greed
 import os
 
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
+
 fgx = fear_and_greed.get()
 
 channel_id = "#알림"
