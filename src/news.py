@@ -62,7 +62,7 @@ def get_content(url):
 #         replaced = replace_br_tags(f"{url}\n\n{head_div[0]}\n{divs[0]}")
 #         removed = remove_html_tags(replaced)
 #         return removed
-        return f"{article_link}\n\n{head_div[0]}\n{divs[0]}"
+        return f"{article_link}<br/>{head_div[0]}<br/><br/>{divs[0]}"
     else:
         return None
 
@@ -84,10 +84,10 @@ def get_all_contents(links):
 
 
 def write_file(contents, filename):
-    # newline 을 써줘야 windows, linux 상관 없이 같은 동작
-    with open(filename, mode='wt', newline='\n') as f:
+    
+    with open(filename, mode='w') as f:
 #         f.write(sep.join(contents))
-        f.write('\n'.join(contents))
+        f.write('<br/><br/>'.join(contents))
 
 
 # In[184]:
