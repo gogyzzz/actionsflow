@@ -97,12 +97,13 @@ def upload_to_slack(filename):
     try:
         # Initialize a Slack WebClient instance with the bot token
         client = WebClient(token=SLACK_BOT_TOKEN)
-
-        with open(filename, "rb") as f:   
-            # Call the chat_postMessage API method using the WebClient
-            response = client.files_upload(
-                channels=CHANNEL_NAME,
-                file=f
+   
+        # Call the chat_postMessage API method using the WebClient
+        response = client.files_upload(
+            channels=CHANNEL_NAME,
+            file=filename,
+            filetype="html",
+            link_labels=[{"url": "file://{}".format(filename), "name": "읽기"}]
             )
 
 
