@@ -30,9 +30,7 @@ CHANNEL_NAME = "#알림"
 
 SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
 
-sep = "\n ================== \n"
-
-NUM_ARTICLES = 45
+NUM_ARTICLES = 2
 
 # In[111]:
 
@@ -51,6 +49,7 @@ def get_article_links(url, pattern):
 def get_content(url):
     response = requests.get(url, headers=HEADERS)
     soup = BeautifulSoup(response.content, 'html.parser')
+    article_link = f'<a href="{url}">{url}</a><br/><br/>'
     head_div = soup.find_all('h2', {'id': 'title_area'})
     divs = soup.find_all('div', {'id': 'dic_area'})
 
@@ -64,7 +63,7 @@ def get_content(url):
 #         replaced = replace_br_tags(f"{url}\n\n{head_div[0]}\n{divs[0]}")
 #         removed = remove_html_tags(replaced)
 #         return removed
-        return f"{url}\n\n{head_div[0]}\n{divs[0]}"
+        return f"{article_link}\n\n{head_div[0]}\n{divs[0]}"
     else:
         return None
 
@@ -111,64 +110,6 @@ def upload_to_slack(filename):
     except SlackApiError as e:
         print("Error uploading file to Slack: {}".format(e))
 
-
-# In[209]:
-
-
-def message_to_slack(contents):
-    try:
-        # Initialize a Slack WebClient instance with the bot token
-        client = WebClient(token=SLACK_BOT_TOKEN)
-
-        
-        blocks = [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": content
-                }
-            } for content in contents]
-
-        # Set the message parameters
-        params = {
-            "channel": CHANNEL_NAME,
-            "blocks": blocks,
-            "reply_broadcast": False
-        }
-        
-        
-        # Call the chat_postMessage API method using the WebClient
-        response = client.chat_postMessage(**params)
-        thread_ts = response["ts"]
-
-    except SlackApiError as e:
-        print("Error uploading file to Slack: {}".format(e))
-        
-    params = {
-        "channel": CHANNEL_NAME,
-        "thread_ts": thread_ts,
-        "ts": thread_ts,
-        "reply_broadcast": False,
-        "blocks": blocks + [{
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "This is the folded text."
-                },
-                "block_id": "folded"
-            }]
-    }
-    try:
-        # Update the thread with the folded message
-        response = client.chat_update(**params)
-        print(f"Thread folded: {thread_ts}")
-    except SlackApiError as e:
-        print("Error folding thread: {}".format(e))
-        
-
-
-# In[231]:
 
 
 def job():
