@@ -59,10 +59,10 @@ def get_content(url):
     def replace_br_tags(text):
         return text.replace('<br/>', '\n').replace('\n\n', '\n')
     if len(divs) > 0:
-#         replaced = replace_br_tags(f"{url}\n\n{head_div[0]}\n{divs[0]}")
-#         removed = remove_html_tags(replaced)
-#         return removed
-        return f"{article_link}\n\n{head_div[0]}\n{divs[0]}"
+        replaced = replace_br_tags(f"{url}\n\n{head_div[0]}\n{divs[0]}")
+        removed = remove_html_tags(replaced)
+        return removed
+#         return f"{article_link}\n\n{head_div[0]}\n{divs[0]}"
     else:
         return None
 
@@ -101,7 +101,7 @@ def upload_to_slack(filename):
         response = client.files_upload(
             channels=CHANNEL_NAME,
             file=filename,
-            filetype='html'
+            filetype='text'
         )
 
 
@@ -122,7 +122,7 @@ def job():
 
     # Format the current date as a string
     date_string = now.strftime("%Y-%m-%d")
-    filepath = f'{newspaper_name}_{date_string}.html'
+    filepath = f'{newspaper_name}_{date_string}.txt'
     write_file(contents, filename=filepath)
     # message_to_slack()
     upload_to_slack(filepath)
