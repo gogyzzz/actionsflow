@@ -100,7 +100,8 @@ def upload_to_slack(filename):
         # Call the chat_postMessage API method using the WebClient
         response = client.files_upload(
             channels=CHANNEL_NAME,
-            file=filename
+            file=filename,
+            filetype='text'
         )
 
 
